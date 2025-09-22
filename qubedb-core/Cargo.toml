@@ -41,3 +41,19 @@ anyhow = "1.0"
 thiserror = "1.0"
 tracing = "0.1"
 tracing-subscriber = "0.3"
+
+# API dependencies
+axum = { version = "0.7", features = ["json", "cors", "multipart"] }
+tower = "0.4"
+tower-http = { version = "0.5", features = ["cors", "trace"] }
+
+# Security dependencies
+jsonwebtoken = "9.0"
+uuid = { version = "1.0", features = ["v4", "serde"] }
+bcrypt = "0.15"
+rustls = "0.21"
+tokio-rustls = "0.24"
+
+# GraphQL dependencies
+async-graphql = "6.0"
+async-graphql-axum = "6.0"
