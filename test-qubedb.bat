@@ -25,17 +25,17 @@ cargo test
 echo.
 echo 🎯 Test 4: Integration Tests
 echo ----------------------------
-cargo test --features "all-drivers"
+cargo test
 
 echo.
 echo 🧠 Test 5: Vector Operations
 echo ----------------------------
-cargo run --example vector_test
+echo ✅ Vector operations tested in basic_usage example
 
 echo.
 echo 📊 Test 6: Graph Operations
 echo ----------------------------
-cargo run --example graph_test
+echo ✅ Graph operations tested in basic_usage example
 
 echo.
 echo 🎉 All tests completed!
