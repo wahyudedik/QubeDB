@@ -12,15 +12,10 @@
 pub mod index;
 pub mod query;
 pub mod storage;
-// pub mod network;  // Commented out due to missing tonic dependency
 pub mod error;
 pub mod types;
 pub mod drivers;
 pub mod embedded;
-// pub mod api;  // Commented out for initial build
-// pub mod security;  // Commented out for initial build
-// pub mod cluster;  // Commented out for initial build
-// pub mod streaming;  // Commented out for initial build
 
 pub use error::{QubeError, QubeResult};
 

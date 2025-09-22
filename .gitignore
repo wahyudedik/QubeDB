@@ -27,6 +27,8 @@ test_data/
 performance_test_db/
 example_db/
 qubedb_data/
+*_db/
+*_test_db/
 
 # Environment
 .env
