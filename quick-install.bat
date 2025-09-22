@@ -1,9 +1,9 @@
 @echo off
-REM QubeDB Quick Install & Test Script
+REM QubeDB Quick Install & Test Script - Fixed Version
 REM Script otomatis untuk install dan test QubeDB
 
 echo 🚀 QubeDB Quick Install & Test
-echo ================================
+echo ===============================
 
 REM Check if Rust is installed
 rustc --version >nul 2>&1
@@ -20,7 +20,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo ✅ Rust found: 
+echo ✅ Rust found:
 rustc --version
 
 REM Check if Git is installed
@@ -38,6 +38,9 @@ git --version
 echo.
 echo 🔨 Building QubeDB Core...
 cd qubedb-core
+
+REM Clean previous build
+cargo clean
 
 REM Build release version
 cargo build --release
@@ -72,10 +75,10 @@ echo.
 echo 🎉 All tests completed successfully!
 echo ====================================
 echo.
-echo ✅ QubeDB is working correctly!
+echo ✅ QubeDB Core is working correctly!
 echo.
 echo 🚀 Next steps:
-echo 1. Try the GUI: cd ..\qubedb-gui && cargo run
+echo 1. Try the GUI: run start-gui.bat
 echo 2. Read documentation: SETUP-GUIDE.md
 echo 3. Test with your projects
 echo.

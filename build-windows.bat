@@ -1,8 +1,6 @@
 @echo off
-REM QubeDB Windows Build Script
-REM Builds QubeDB Core, GUI, and creates Windows installer
-
-setlocal enabledelayedexpansion
+REM QubeDB Windows Build Script - Fixed Version
+REM Script untuk build QubeDB di Windows dengan GUI
 
 echo 🚀 QubeDB Windows Build Script
 echo ================================
@@ -12,18 +10,24 @@ rustc --version >nul 2>&1
 if errorlevel 1 (
     echo ❌ Rust is not installed!
     echo Please install Rust from https://rustup.rs/
+    echo.
+    echo Quick install:
+    echo 1. Download: https://win.rustup.rs/x86_64
+    echo 2. Run: rustup-init.exe
+    echo 3. Restart PowerShell
+    echo 4. Run this script again
     pause
     exit /b 1
 )
 
-echo ✅ Rust found: 
+echo ✅ Rust found:
 rustc --version
 
 REM Check if Git is installed
 git --version >nul 2>&1
 if errorlevel 1 (
     echo ❌ Git is not installed!
-    echo Please install Git from https://git-scm.com/
+    echo Please install Git from https://git-scm.com/download/win
     pause
     exit /b 1
 )
@@ -31,103 +35,94 @@ if errorlevel 1 (
 echo ✅ Git found:
 git --version
 
-REM Create build directory
-if not exist "build" mkdir build
-if not exist "build\windows" mkdir build\windows
-if not exist "build\windows\installer" mkdir build\windows\installer
-
 echo.
 echo 🔨 Building QubeDB Core...
 cd qubedb-core
+
+REM Clean previous build
+cargo clean
+
+REM Build release version
 cargo build --release
 if errorlevel 1 (
-    echo ❌ Failed to build QubeDB Core!
+    echo ❌ Build failed!
+    echo Please check the error messages above
     pause
     exit /b 1
 )
+
 echo ✅ QubeDB Core built successfully!
+
+echo.
+echo 🧪 Testing Basic Functionality...
+cargo run --example basic_usage
+if errorlevel 1 (
+    echo ❌ Basic test failed!
+    pause
+    exit /b 1
+)
+
+echo.
+echo ⚡ Testing Performance...
+cargo run --example performance_test
+if errorlevel 1 (
+    echo ❌ Performance test failed!
+    pause
+    exit /b 1
+)
 
 echo.
 echo 🖥️ Building QubeDB GUI...
 cd ..\qubedb-gui
-cargo build --release
+
+REM Check if Node.js is installed
+node --version >nul 2>&1
 if errorlevel 1 (
-    echo ❌ Failed to build QubeDB GUI!
+    echo ❌ Node.js is not installed!
+    echo Please install Node.js from https://nodejs.org/
+    echo.
+    echo Or install via Chocolatey:
+    echo choco install nodejs -y
     pause
     exit /b 1
 )
+
+echo ✅ Node.js found:
+node --version
+
+REM Install npm dependencies
+echo Installing npm dependencies...
+npm install
+if errorlevel 1 (
+    echo ❌ Failed to install npm dependencies!
+    pause
+    exit /b 1
+)
+
+REM Build GUI
+echo Building GUI...
+cargo build --release
+if errorlevel 1 (
+    echo ❌ GUI build failed!
+    pause
+    exit /b 1
+)
+
 echo ✅ QubeDB GUI built successfully!
 
 echo.
-echo 📦 Preparing installer files...
-cd ..\build\windows
-
-REM Copy binaries
-copy "..\..\qubedb-core\target\release\qubedb-core.exe" "qubedb.exe"
-copy "..\..\qubedb-gui\target\release\qubedb-gui.exe" "qubedb-gui.exe"
-
-REM Copy GUI assets
-if not exist "gui" mkdir gui
-xcopy "..\..\qubedb-gui\dist\*" "gui\" /E /I /Y
-
-REM Copy documentation
-copy "..\..\README.md" "README.txt"
-copy "..\..\LICENSE" "LICENSE.txt"
-echo # QubeDB Changelog > CHANGELOG.txt
-echo Version 1.0.0 - Initial release >> CHANGELOG.txt
-echo - Core database engine >> CHANGELOG.txt
-echo - Desktop GUI application >> CHANGELOG.txt
-echo - Windows installer >> CHANGELOG.txt
-
-REM Copy installer script
-copy "..\..\installer\windows\qubedb-installer.nsi" "installer\"
-
+echo 🎉 All builds completed successfully!
+echo ====================================
 echo.
-echo 🔧 Creating Windows installer...
-
-REM Check if NSIS is installed
-makensis /VERSION >nul 2>&1
-if errorlevel 1 (
-    echo ❌ NSIS is not installed!
-    echo Please install NSIS from https://nsis.sourceforge.io/
-    echo.
-    echo Alternative: Use PowerShell installer
-    echo Running PowerShell installer instead...
-    cd ..\..\installer\windows
-    powershell -ExecutionPolicy Bypass -File install.ps1
-    pause
-    exit /b 0
-)
-
-echo ✅ NSIS found:
-makensis /VERSION
-
-REM Create installer
-cd installer
-makensis qubedb-installer.nsi
-if errorlevel 1 (
-    echo ❌ Failed to create installer!
-    pause
-    exit /b 1
-)
-
-echo ✅ Windows installer created successfully!
-
-REM Move installer to build directory
-move "QubeDB-Setup.exe" "..\..\QubeDB-Setup.exe"
-
+echo ✅ QubeDB Core: Ready
+echo ✅ QubeDB GUI: Ready
 echo.
-echo 🎉 Build completed successfully!
-echo ================================
-echo 📁 Build directory: build\windows
-echo 📦 Installer: QubeDB-Setup.exe
+echo 🚀 Next steps:
+echo 1. Run GUI: cd qubedb-gui && cargo run
+echo 2. Or run: start-gui.bat
 echo.
-echo 🚀 To install QubeDB:
-echo 1. Run QubeDB-Setup.exe
-echo 2. Follow the installation wizard
-echo 3. Launch QubeDB Desktop from desktop shortcut
+echo 📖 Documentation: SETUP-GUIDE.md
+echo 🐛 Issues: https://github.com/wahyudedik/QubeDB/issues
 echo.
-echo 📖 Documentation: https://docs.qubedb.com
-echo 🐛 Issues: https://github.com/qubedb/qubedb/issues
 
 pause
