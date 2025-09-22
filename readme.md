@@ -14,10 +14,27 @@
 - 📦 **Embedded Mode** - Seperti SQLite, bisa embedded di aplikasi
 - 🔌 **Multiple Drivers** - Laravel, Django, Spring, Node.js, Go, Rust
 - 🧠 **AI Ready** - Vector search untuk aplikasi AI/ML
-- ☁️ **Cloud Native** - Siap untuk deployment cloud dan edge
+- 🖥️ **Desktop GUI** - Modern interface dengan Tauri
 
 ## 🚀 Quick Start
 
+### **Windows (Recommended)**
+```bash
+# Clone repository
+git clone https://github.com/wahyudedik/QubeDB.git
+cd QubeDB
+
+# Install everything
+install-everything.bat
+
+# Build and test
+quick-install.bat
+
+# Run GUI
+run-gui-now.bat
+```
+
+### **Manual Build**
 ```bash
 # Clone repository
 git clone https://github.com/wahyudedik/QubeDB.git

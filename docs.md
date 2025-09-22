@@ -103,20 +103,13 @@ class ProductController extends Controller
         // Text search
         $textResults = Product::where('name', 'like', "%{$query}%")->get();
         
-        // Vector similarity search
+        // Vector similarity search (basic implementation)
         $vector = $this->getEmbedding($query);
-        $vectorResults = Product::vectorSearch('embedding', $vector, 10)->get();
-        
-        // Graph recommendations
-        $recommendations = Product::graph()
-            ->neighbors('similar_to')
-            ->where('category', $request->category)
-            ->get();
+        $vectorResults = Product::where('embedding', 'similar', $vector)->get();
         
         return response()->json([
             'text' => $textResults,
             'vector' => $vectorResults,
-            'recommendations' => $recommendations,
         ]);
     }
 }
@@ -210,7 +203,6 @@ class ProductSearchView(View):
         results = {
             'text': Product.objects.filter(name__icontains=query),
             'vector': vector_search(Product, 'embedding', query, k=10),
-            'graph': graph_query(Product, 'similar_to', query),
         }
         
         return JsonResponse(results)

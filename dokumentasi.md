@@ -26,8 +26,9 @@ QubeDB adalah database yang dirancang untuk era modern dengan dukungan:
 - **Multi-Model**: Relational, Document, Graph, Vector dalam satu database
 - **High Performance**: Dibangun dengan Rust untuk keamanan memori dan performa tinggi
 - **Developer Friendly**: Driver untuk berbagai framework populer
-- **Cloud Native**: Siap untuk deployment cloud dan edge
+- **Embedded Ready**: Dapat berjalan sebagai embedded database (seperti SQLite)
 - **AI Ready**: Dukungan vector search untuk aplikasi AI/ML
+- **Desktop GUI**: Interface desktop modern untuk database management
 
 ## ✨ Features
 
@@ -42,13 +43,13 @@ QubeDB adalah database yang dirancang untuk era modern dengan dukungan:
 - **Memory Safety** - Dibangun dengan Rust untuk keamanan dan performa maksimal
 - **Concurrent** - Arsitektur multi-threaded
 - **Embedded** - Dapat berjalan sebagai embedded database (seperti SQLite)
-- **Distributed** - Cloud-native dan edge-ready
+- **Desktop GUI** - Interface desktop modern dengan Tauri
 
 ### 🔌 Developer Experience
 - **Multiple Drivers** - PHP (Laravel), Python (Django), Java (Spring), Node.js, Go, Rust
 - **SQL Standard** - Kompatibilitas ANSI SQL
-- **GraphQL** - Dukungan GraphQL native
-- **REST API** - Endpoint REST bawaan
+- **Desktop GUI** - Interface desktop untuk database management
+- **Embedded Mode** - Dapat digunakan sebagai library dalam aplikasi
 
 ## 🏗️ Architecture
 
@@ -66,21 +67,21 @@ QubeDB adalah database yang dirancang untuk era modern dengan dukungan:
          └───────────────────────┼───────────────────────┘
                                  │
                     ┌─────────────────┐
-                    │   Network Layer │
+                    │   Desktop GUI   │
                     │                 │
-                    │ • gRPC          │
-                    │ • REST API      │
-                    │ • GraphQL       │
+                    │ • Tauri App     │
+                    │ • Web Interface │
+                    │ • Database Mgmt │
                     └─────────────────┘
 ```
 
 ### Data Flow
 
-1. **Query Parsing** - SQL/GraphQL queries di-parse dan divalidasi
-2. **Query Optimization** - Optimasi query berbasis AI
+1. **Query Parsing** - SQL queries di-parse dan divalidasi
+2. **Query Optimization** - Optimasi query untuk performa maksimal
 3. **Execution Planning** - Generasi rencana eksekusi multi-model
 4. **Storage Access** - Retrieval data efisien dari storage engine
-5. **Result Formatting** - Format hasil untuk konsumsi client
+5. **Result Formatting** - Format hasil untuk konsumsi client atau GUI
 
 ## 🚀 Installation
 
@@ -150,21 +151,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-### Server Mode
+### Desktop GUI Mode
 
-```rust
-use qubedb_core::{QubeDB, QubeResult};
+```bash
+# Install dependencies
+install-everything.bat
 
-#[tokio::main]
-async fn main() -> QubeResult<()> {
-    // Buat instance database
-    let qubedb = QubeDB::new()?;
-    
-    // Start server
-    qubedb.start().await?;
-    
-    Ok(())
-}
+# Build GUI
+build-gui.bat
+
+# Run GUI
+run-gui-now.bat
 ```
 
 ## 🧠 Core Concepts
@@ -472,7 +469,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 - `new()` - Create query engine
 - `parse_sql(sql)` - Parse SQL
 - `execute_sql(sql)` - Execute SQL
-- `execute_graphql(query)` - Execute GraphQL
 - `execute_vector_search(collection, vector, limit)` - Vector search
 
 ## 🔧 Troubleshooting
