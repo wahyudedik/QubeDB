@@ -2,7 +2,7 @@
 
 [![Rust](https://img.shields.io/badge/rust-1.90+-orange.svg)](https://www.rust-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Performance](https://img.shields.io/badge/performance-200K%2B%20records%2Fs-brightgreen.svg)](https://github.com/yourusername/QubeDB)
+[![Performance](https://img.shields.io/badge/performance-200K%2B%20records%2Fs-brightgreen.svg)](https://github.com/wahyudedik/QubeDB)
 
 > **QubeDB** adalah database multi-model modern yang ditulis dalam Rust yang menggabungkan kekuatan database relational, document, graph, dan vector dalam satu sistem yang terpadu.
 
@@ -20,7 +20,7 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/QubeDB.git
+git clone https://github.com/wahyudedik/QubeDB.git
 cd QubeDB/qubedb-core
 
 # Build
@@ -101,7 +101,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 📧 **Email**: support@qubedb.com
 - 💬 **Discord**: [Join our community](https://discord.gg/qubedb)
 - 📖 **Documentation**: [docs.qubedb.com](https://docs.qubedb.com)
-- 🐛 **Issues**: [GitHub Issues](https://github.com/yourusername/QubeDB/issues)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/wahyudedik/QubeDB/issues)
 
 ---
 
