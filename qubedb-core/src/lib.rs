@@ -19,6 +19,8 @@ pub mod drivers;
 pub mod embedded;
 pub mod api;
 pub mod security;
+pub mod cluster;
+pub mod streaming;
 
 pub use error::{QubeError, QubeResult};
 
