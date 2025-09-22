@@ -1,0 +1,58 @@
+# Rust
+/target/
+**/*.rs.bk
+*.pdb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Test data
+test_data/
+performance_test_db/
+example_db/
+qubedb_data/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Build artifacts
+dist/
+build/
+
+# Cargo
+Cargo.lock
+target/
+
+# Rust analyzer
+.rust-analyzer/
+
+# Coverage
+tarpaulin-report.html
+lcov.info
+
+# Profiling
+*.prof
+perf.data*
+
+# Temporary files
+*.tmp
+*.temp
+*~
