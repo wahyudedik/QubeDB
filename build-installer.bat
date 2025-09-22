@@ -1,6 +1,6 @@
 @echo off
-REM QubeDB Windows Installer Build Script
-REM Script untuk build Windows installer
+REM QubeDB Windows Installer Builder
+REM Script untuk build Windows installer dengan NSIS
 
 echo 🏗️ QubeDB Windows Installer Builder
 echo ===================================
