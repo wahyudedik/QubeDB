@@ -17,10 +17,10 @@ pub mod error;
 pub mod types;
 pub mod drivers;
 pub mod embedded;
-pub mod api;
-pub mod security;
-pub mod cluster;
-pub mod streaming;
+// pub mod api;  // Commented out for initial build
+// pub mod security;  // Commented out for initial build
+// pub mod cluster;  // Commented out for initial build
+// pub mod streaming;  // Commented out for initial build
 
 pub use error::{QubeError, QubeResult};
 
