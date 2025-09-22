@@ -15,34 +15,36 @@ pub enum DataType {
     UInt16,
     UInt32,
     UInt64,
-    
+
     /// Floating point types
     Float32,
     Float64,
-    
+
     /// Text types
     String,
     Text,
-    
+
     /// Binary types
     Binary,
     Blob,
-    
+
     /// JSON document
     Json,
-    
+
     /// Vector for AI/ML
-    Vector { dimensions: usize },
-    
+    Vector {
+        dimensions: usize,
+    },
+
     /// Graph node/edge
     GraphNode,
     GraphEdge,
-    
+
     /// Time series
     Timestamp,
     Date,
     Time,
-    
+
     /// Boolean
     Boolean,
 }
@@ -99,9 +101,14 @@ pub struct Constraint {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ConstraintType {
     PrimaryKey,
-    ForeignKey { referenced_table: String, referenced_column: String },
+    ForeignKey {
+        referenced_table: String,
+        referenced_column: String,
+    },
     Unique,
-    Check { expression: String },
+    Check {
+        expression: String,
+    },
 }
 
 /// Value types that can be stored
@@ -130,11 +137,12 @@ pub enum Value {
 pub type Row = HashMap<String, Value>;
 
 /// Query result
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct QueryResult {
     pub columns: Vec<String>,
     pub rows: Vec<Row>,
     pub affected_rows: usize,
+    #[serde(skip)]
     pub execution_time: std::time::Duration,
 }
 
@@ -160,7 +168,9 @@ impl PartialEq for Value {
                 if a.len() != b.len() {
                     return false;
                 }
-                a.iter().zip(b.iter()).all(|(x, y)| (x - y).abs() < f32::EPSILON)
+                a.iter()
+                    .zip(b.iter())
+                    .all(|(x, y)| (x - y).abs() < f32::EPSILON)
             }
             (Value::Boolean(a), Value::Boolean(b)) => a == b,
             (Value::Timestamp(a), Value::Timestamp(b)) => a == b,

@@ -3,7 +3,7 @@
 //! This module provides a Node.js native driver for QubeDB
 //! that can be used with Express, NestJS, and other Node.js frameworks.
 
-use crate::error::{QubeError, QubeResult};
+use crate::error::QubeResult;
 use crate::drivers::DriverConfig;
 use crate::query::QueryEngine;
 use crate::storage::StorageEngine;
@@ -11,8 +11,10 @@ use std::collections::HashMap;
 
 /// Node.js connection for QubeDB
 pub struct NodeJSConnection {
+    #[allow(dead_code)]
     config: DriverConfig,
     query_engine: QueryEngine,
+    #[allow(dead_code)]
     storage_engine: StorageEngine,
 }
 

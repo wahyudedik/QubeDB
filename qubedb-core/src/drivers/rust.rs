@@ -3,7 +3,7 @@
 //! This module provides a native Rust driver for QubeDB
 //! that can be used directly in Rust applications.
 
-use crate::error::{QubeError, QubeResult};
+use crate::error::QubeResult;
 use crate::drivers::DriverConfig;
 use crate::query::QueryEngine;
 use crate::storage::StorageEngine;
@@ -11,8 +11,10 @@ use std::collections::HashMap;
 
 /// Rust native connection for QubeDB
 pub struct RustConnection {
+    #[allow(dead_code)]
     config: DriverConfig,
     query_engine: QueryEngine,
+    #[allow(dead_code)]
     storage_engine: StorageEngine,
 }
 

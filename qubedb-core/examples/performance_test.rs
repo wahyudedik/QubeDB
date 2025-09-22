@@ -5,6 +5,7 @@
 
 use qubedb_core::embedded::EmbeddedQubeDB;
 use qubedb_core::types::{Row, Value};
+use qubedb_core::logging::{LoggerConfig, LogLevel, init_logger};
 use std::collections::HashMap;
 use std::time::Instant;
 
@@ -12,6 +13,21 @@ use std::time::Instant;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("⚡ QubeDB Performance Test");
     println!("=========================");
+    
+    // Initialize logger
+    println!("\n🔧 Initializing logger...");
+    let logger_config = LoggerConfig {
+        log_file: "logs/qubedb.log".to_string(),
+        log_level: LogLevel::Info,
+        enable_console: true,
+        enable_file: true,
+        enable_json: false,
+        enable_metrics: true,
+        ..Default::default()
+    };
+    
+    init_logger(logger_config)?;
+    println!("✅ Logger initialized");
 
     // Create database
     let mut db = EmbeddedQubeDB::open("./performance_test_db")?;

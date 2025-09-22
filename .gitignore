@@ -1,5 +1,6 @@
 # Rust
-/target/
+target/
+Cargo.lock
 **/*.rs.bk
 *.pdb
 
@@ -12,49 +13,147 @@
 
 # OS
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
 # Logs
 *.log
+logs/
+qubedb.log
+server.log
 
 # Database files
 *.db
 *.sqlite
 *.sqlite3
-
-# Test data
-test_data/
-performance_test_db/
-example_db/
-qubedb_data/
-*_db/
-*_test_db/
+data/
+storage/
 
 # Environment
 .env
 .env.local
-.env.production
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Build artifacts
 dist/
 build/
+out/
 
-# Cargo
-Cargo.lock
-target/
+# Dependencies
+node_modules/
+vendor/
 
-# Rust analyzer
-.rust-analyzer/
-
-# Coverage
-tarpaulin-report.html
-lcov.info
-
-# Profiling
-*.prof
-perf.data*
+# Test coverage
+coverage/
+*.lcov
 
 # Temporary files
+tmp/
+temp/
 *.tmp
 *.temp
+
+# Backup files
+*.bak
+*.backup
+
+# Documentation build
+docs/_build/
+site/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Node.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Docker
+.dockerignore
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
 *~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# macOS
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*

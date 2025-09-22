@@ -11,8 +11,10 @@ use std::collections::HashMap;
 
 /// PDO-compatible connection for QubeDB
 pub struct PDOConnection {
+    #[allow(dead_code)]
     config: DriverConfig,
     query_engine: QueryEngine,
+    #[allow(dead_code)]
     storage_engine: StorageEngine,
     connected: bool,
 }
@@ -36,7 +38,7 @@ impl PDOConnection {
     }
 
     /// Execute a prepared statement
-    pub async fn execute(&self, sql: &str, params: &[String]) -> QubeResult<PDOResult> {
+    pub async fn execute(&self, sql: &str, _params: &[String]) -> QubeResult<PDOResult> {
         if !self.connected {
             return Err(QubeError::Network("Not connected to database".to_string()));
         }

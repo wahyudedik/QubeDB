@@ -1,18 +1,20 @@
 //! Go driver for QubeDB
-//! 
+//!
 //! This module provides a Go database/sql driver for QubeDB
 //! that can be used with Go applications.
 
-use crate::error::{QubeError, QubeResult};
 use crate::drivers::DriverConfig;
+use crate::error::QubeResult;
 use crate::query::QueryEngine;
 use crate::storage::StorageEngine;
 use std::collections::HashMap;
 
 /// Go connection for QubeDB
 pub struct GoConnection {
+    #[allow(dead_code)]
     config: DriverConfig,
     query_engine: QueryEngine,
+    #[allow(dead_code)]
     storage_engine: StorageEngine,
 }
 
@@ -25,11 +27,11 @@ impl GoConnection {
             storage_engine: StorageEngine::new("./data").unwrap(),
         }
     }
-    
+
     /// Execute a query
     pub async fn query(&self, sql: &str) -> QubeResult<GoResult> {
         let result = self.query_engine.execute_sql(sql).await?;
-        
+
         Ok(GoResult {
             rows: result.rows,
             affected_rows: result.affected_rows,

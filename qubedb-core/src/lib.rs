@@ -9,13 +9,15 @@
 //!
 //! All in one unified system with AI-native optimization.
 
-pub mod index;
-pub mod query;
-pub mod storage;
-pub mod error;
-pub mod types;
 pub mod drivers;
 pub mod embedded;
+pub mod embedded_simple;
+pub mod error;
+pub mod index;
+pub mod logging;
+pub mod query;
+pub mod storage;
+pub mod types;
 
 pub use error::{QubeError, QubeResult};
 

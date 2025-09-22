@@ -8,7 +8,7 @@
 //! - Spatial indexes
 
 use crate::error::{QubeError, QubeResult};
-use crate::types::{Index, IndexType, Value};
+use crate::types::{Index, Value};
 use std::collections::HashMap;
 
 /// Index manager for different index types
@@ -56,7 +56,9 @@ impl IndexManager {
 
 /// B-Tree index implementation
 pub struct BTreeIndex {
+    #[allow(dead_code)]
     name: String,
+    #[allow(dead_code)]
     columns: Vec<String>,
     data: std::collections::HashMap<Vec<Value>, Vec<u8>>, // Key -> Row ID
 }
@@ -78,7 +80,7 @@ impl BTreeIndex {
         self.data.get(key)
     }
     
-    pub fn range_search(&self, start: &[Value], end: &[Value]) -> Vec<&Vec<u8>> {
+    pub fn range_search(&self, _start: &[Value], _end: &[Value]) -> Vec<&Vec<u8>> {
         // TODO: Implement range search
         vec![]
     }
@@ -86,7 +88,9 @@ impl BTreeIndex {
 
 /// Hash index implementation
 pub struct HashIndex {
+    #[allow(dead_code)]
     name: String,
+    #[allow(dead_code)]
     columns: Vec<String>,
     data: HashMap<Vec<Value>, Vec<u8>>, // Key -> Row ID
 }
@@ -111,6 +115,7 @@ impl HashIndex {
 
 /// Vector index for AI/ML similarity search
 pub struct VectorIndex {
+    #[allow(dead_code)]
     name: String,
     dimensions: usize,
     // TODO: Integrate with FAISS or HNSW
@@ -124,7 +129,7 @@ impl VectorIndex {
         }
     }
     
-    pub fn insert(&mut self, id: &str, vector: &[f32]) -> QubeResult<()> {
+    pub fn insert(&mut self, _id: &str, vector: &[f32]) -> QubeResult<()> {
         if vector.len() != self.dimensions {
             return Err(QubeError::Index(format!(
                 "Vector dimension mismatch: expected {}, got {}",
@@ -137,7 +142,7 @@ impl VectorIndex {
         Ok(())
     }
     
-    pub fn search(&self, query_vector: &[f32], k: usize) -> QubeResult<Vec<(String, f32)>> {
+    pub fn search(&self, query_vector: &[f32], _k: usize) -> QubeResult<Vec<(String, f32)>> {
         if query_vector.len() != self.dimensions {
             return Err(QubeError::Index(format!(
                 "Query vector dimension mismatch: expected {}, got {}",

@@ -3,7 +3,7 @@
 //! This module provides a JDBC-compatible driver for QubeDB
 //! that can be used with Spring Boot and other Java frameworks.
 
-use crate::error::{QubeError, QubeResult};
+use crate::error::QubeResult;
 use crate::drivers::DriverConfig;
 use crate::query::QueryEngine;
 use crate::storage::StorageEngine;
@@ -11,8 +11,10 @@ use std::collections::HashMap;
 
 /// JDBC connection for QubeDB
 pub struct JDBCConnection {
+    #[allow(dead_code)]
     config: DriverConfig,
     query_engine: QueryEngine,
+    #[allow(dead_code)]
     storage_engine: StorageEngine,
     auto_commit: bool,
 }
@@ -29,7 +31,7 @@ impl JDBCConnection {
     }
     
     /// Create a prepared statement
-    pub fn prepare_statement(&self, sql: &str) -> JDBCPreparedStatement {
+    pub fn prepare_statement(&self, sql: &str) -> JDBCPreparedStatement<'_> {
         JDBCPreparedStatement {
             sql: sql.to_string(),
             connection: self,
@@ -62,7 +64,7 @@ pub struct JDBCPreparedStatement<'a> {
 
 impl<'a> JDBCPreparedStatement<'a> {
     /// Execute the prepared statement
-    pub async fn execute(&self, params: &[String]) -> QubeResult<JDBCResultSet> {
+    pub async fn execute(&self, _params: &[String]) -> QubeResult<JDBCResultSet> {
         // Execute query
         let result = self.connection.query_engine.execute_sql(&self.sql).await?;
         
@@ -74,7 +76,7 @@ impl<'a> JDBCPreparedStatement<'a> {
     }
     
     /// Execute update (INSERT, UPDATE, DELETE)
-    pub async fn execute_update(&self, params: &[String]) -> QubeResult<i32> {
+    pub async fn execute_update(&self, _params: &[String]) -> QubeResult<i32> {
         let result = self.connection.query_engine.execute_sql(&self.sql).await?;
         Ok(result.affected_rows as i32)
     }

@@ -1,44 +1,31 @@
-//! Basic usage example for QubeDB Core
+//! Simple QubeDB usage example
 //! 
-//! This example demonstrates the basic features of QubeDB:
-//! - Embedded database usage
-//! - Multi-model data storage
-//! - SQL querying
+//! This example shows how to use QubeDB for basic database operations:
+//! - Create database
+//! - Insert data
+//! - Query data
 //! - Vector operations
 //! - Graph operations
 
 use qubedb_core::embedded::EmbeddedQubeDB;
-use qubedb_core::types::{Row, Value};
-use qubedb_core::logging::{LoggerConfig, LogLevel, init_logger};
+use qubedb_core::types::Value;
 use std::collections::HashMap;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    println!("🦀 QubeDB Core - Basic Usage Example");
-    println!("=====================================");
+    println!("🦀 QubeDB Simple Usage Example");
+    println!("================================");
     
     // Initialize logger
-    println!("\n🔧 Initializing logger...");
-    let logger_config = LoggerConfig {
-        log_file: "logs/qubedb.log".to_string(),
-        log_level: LogLevel::Info,
-        enable_console: true,
-        enable_file: true,
-        enable_json: false,
-        enable_metrics: true,
-        ..Default::default()
-    };
+    qubedb_core::logging::init_logger(qubedb_core::logging::LoggerConfig::default())?;
     
-    init_logger(logger_config)?;
-    println!("✅ Logger initialized");
-    
-    // Create embedded database
-    println!("\n📦 Creating embedded database...");
+    // Create or open database
+    println!("\n📁 Creating database...");
     let mut db = EmbeddedQubeDB::open("./example_db")?;
-    println!("✅ Database created at: {}", db.path());
+    println!("✅ Database created: ./example_db");
     
-    // 1. Relational Data (SQL)
-    println!("\n🗄️ Testing Relational Data...");
+    // 1. Relational Data (SQL-like)
+    println!("\n🗄️  Testing Relational Data...");
     
     // Insert users
     let mut user1 = HashMap::new();
@@ -46,20 +33,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     user1.insert("name".to_string(), Value::String("Alice".to_string()));
     user1.insert("age".to_string(), Value::Int32(25));
     user1.insert("email".to_string(), Value::String("alice@example.com".to_string()));
-    db.insert("users", user1)?;
     
     let mut user2 = HashMap::new();
     user2.insert("id".to_string(), Value::Int32(2));
     user2.insert("name".to_string(), Value::String("Bob".to_string()));
     user2.insert("age".to_string(), Value::Int32(30));
     user2.insert("email".to_string(), Value::String("bob@example.com".to_string()));
-    db.insert("users", user2)?;
     
+    db.insert("users", user1)?;
+    db.insert("users", user2)?;
     println!("✅ Inserted 2 users");
     
     // Query users
-    let result = db.execute("SELECT * FROM users WHERE age > 25").await?;
-    println!("✅ Found {} users over 25", result.rows.len());
+    let result = db.execute("SELECT * FROM users").await?;
+    println!("✅ Query executed: Found {} rows", result.rows.len());
     
     // 2. Document Data (JSON)
     println!("\n📄 Testing Document Data...");
@@ -71,10 +58,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     product.insert("specs".to_string(), Value::Json(serde_json::json!({
         "cpu": "Intel i7",
         "ram": "16GB",
-        "storage": "512GB SSD"
+        "storage": "512GB SSD",
+        "os": "Windows 11"
     })));
-    db.insert("products", product)?;
     
+    db.insert("products", product)?;
     println!("✅ Inserted product with JSON specs");
     
     // 3. Vector Data (AI/ML)
@@ -88,7 +76,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     db.store_vector("document_embeddings", "doc1", &doc1_vector)?;
     db.store_vector("document_embeddings", "doc2", &doc2_vector)?;
     db.store_vector("document_embeddings", "doc3", &doc3_vector)?;
-    
     println!("✅ Stored 3 document embeddings");
     
     // Retrieve vector
@@ -97,77 +84,67 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     
     // 4. Graph Data
-    println!("\n🕸️ Testing Graph Data...");
+    println!("\n🕸️  Testing Graph Data...");
     
     // Store nodes
     let mut alice_node = HashMap::new();
     alice_node.insert("name".to_string(), Value::String("Alice".to_string()));
     alice_node.insert("type".to_string(), Value::String("Person".to_string()));
-    db.store_node("social_graph", "alice", alice_node)?;
+    alice_node.insert("age".to_string(), Value::Int32(25));
     
     let mut bob_node = HashMap::new();
     bob_node.insert("name".to_string(), Value::String("Bob".to_string()));
     bob_node.insert("type".to_string(), Value::String("Person".to_string()));
+    bob_node.insert("age".to_string(), Value::Int32(30));
+    
+    db.store_node("social_graph", "alice", alice_node)?;
     db.store_node("social_graph", "bob", bob_node)?;
+    println!("✅ Stored 2 graph nodes");
     
     // Store edges (relationships)
     let mut friendship = HashMap::new();
     friendship.insert("type".to_string(), Value::String("FRIENDS".to_string()));
     friendship.insert("since".to_string(), Value::String("2020-01-01".to_string()));
+    friendship.insert("strength".to_string(), Value::Float64(0.8));
+    
     db.store_edge("social_graph", "alice", "bob", friendship)?;
+    println!("✅ Stored friendship edge");
     
-    println!("✅ Created social graph with 2 nodes and 1 edge");
-    
-    // 5. Complex Queries
-    println!("\n🔍 Testing Complex Queries...");
-    
-    // Multi-table join simulation
-    let users_result = db.execute("SELECT name, age FROM users").await?;
-    println!("✅ Users query returned {} rows", users_result.rows.len());
-    
-    // Display results
-    for (i, row) in users_result.rows.iter().enumerate() {
-        println!("  User {}: {:?}", i + 1, row);
-    }
-    
-    // 6. Performance Test
+    // 5. Performance Test
     println!("\n⚡ Performance Test...");
+    
     let start = std::time::Instant::now();
     
     // Insert multiple records
     for i in 1..=100 {
         let mut record = HashMap::new();
         record.insert("id".to_string(), Value::Int32(i));
-        record.insert("data".to_string(), Value::String(format!("Record {}", i)));
+        record.insert("name".to_string(), Value::String(format!("User{}", i)));
+        record.insert("value".to_string(), Value::Float64(i as f64 * 3.14));
+        
         db.insert("performance_test", record)?;
     }
     
     let duration = start.elapsed();
     println!("✅ Inserted 100 records in {:?}", duration);
     
-    // 7. Data Retrieval
-    println!("\n📊 Data Retrieval Test...");
+    // Query performance
+    let start = std::time::Instant::now();
+    let result = db.execute("SELECT * FROM performance_test WHERE id > 50").await?;
+    let duration = start.elapsed();
+    println!("✅ Query executed in {:?}, found {} rows", duration, result.rows.len());
     
-    // Get specific user
-    if let Some(user) = db.get("users", "1")? {
-        println!("✅ Retrieved user: {:?}", user);
-    }
+    // 6. Summary
+    println!("\n📊 Summary");
+    println!("==========");
+    println!("✅ Relational data: Users table with SQL queries");
+    println!("✅ Document data: Products with JSON specifications");
+    println!("✅ Vector data: Document embeddings for AI/ML");
+    println!("✅ Graph data: Social network with nodes and edges");
+    println!("✅ Performance: 100 records inserted and queried");
     
-    // Get vector data
-    if let Some(vector) = db.get_vector("document_embeddings", "doc2")? {
-        println!("✅ Retrieved vector: {:?}", vector);
-    }
-    
-    println!("\n🎉 All tests completed successfully!");
-    println!("\nQubeDB Core demonstrates:");
-    println!("✅ Relational data storage and SQL queries");
-    println!("✅ Document data with JSON support");
-    println!("✅ Vector data for AI/ML applications");
-    println!("✅ Graph data with nodes and edges");
-    println!("✅ High-performance operations");
-    println!("✅ Multi-model data in one database");
-    
-    println!("\n🚀 QubeDB Core is ready for production use!");
+    println!("\n🎉 QubeDB example completed successfully!");
+    println!("Database location: ./example_db");
     
     Ok(())
 }
