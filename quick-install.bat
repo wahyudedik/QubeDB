@@ -20,7 +20,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo ✅ Rust found:
+echo ✅ Rust found: 
 rustc --version
 
 REM Check if Git is installed

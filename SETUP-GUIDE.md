@@ -20,7 +20,7 @@ rustc --version
 cargo --version
 ```
 
-### 2. **Git (Wajib)**
+### 2. **Git (Wajib)** 
 ```bash
 # Download dari: https://git-scm.com/download/win
 # Atau install via Chocolatey:

@@ -21,7 +21,7 @@ git clone https://github.com/wahyudedik/QubeDB.git
 cd QubeDB
 
 # Run quick install script
-quick-install.bat
+quick-install.bat 
 ```
 
 ### 3. **Test Features**

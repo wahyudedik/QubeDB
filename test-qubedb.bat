@@ -18,7 +18,7 @@ echo ---------------------------
 cargo run --example performance_test
 
 echo.
-echo 🔍 Test 3: Unit Tests
+echo 🔍 Test 3: Unit Tests 
 echo ---------------------
 cargo test
 
